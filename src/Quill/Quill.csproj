@@ -16,7 +16,7 @@
     <PackageProjectUrl>https://github.com/bwatts/Quill</PackageProjectUrl>
     <PackageTags>quill;dotnet;dotnet-core;csharp;utilities;strings;text;streams;stringbuilder</PackageTags>
     <RepositoryUrl>https://github.com/bwatts/Quill</RepositoryUrl>
-    <Description>A standalone library with deferred string-building</Description>
+    <Description>A standalone library for working with text using deferred string-building</Description>
   </PropertyGroup>
 
   <ItemGroup>
