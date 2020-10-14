@@ -7,7 +7,9 @@ on:
     - release-*
     tags:
     - '*.*.*'
-  pull_request:
+    paths-ignore:
+    - '**readme.md '
+    - 'docs/**'
 
 env:
   DOTNET_NOLOGO: true
