@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <!--<GenerateDocumentationFile>true</GenerateDocumentationFile>-->
+    <PackageId>Quill</PackageId>
+    <Authors>Quill Contributors</Authors>
+    <Company>Quill</Company>
+    <Product>Quill</Product>
+    <Version>1.0.0-beta.1</Version>
+    <Copyright>2020 Quill Contributors</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageProjectUrl>https://github.com/bwatts/Quill</PackageProjectUrl>
+    <PackageTags>quill;dotnet;dotnet-core;csharp;utilities;strings;text;streams;stringbuilder</PackageTags>
+    <RepositoryUrl>https://github.com/bwatts/Quill</RepositoryUrl>
+    <Description>A standalone library with deferred string-building</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>Quill.Tests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+</Project>
