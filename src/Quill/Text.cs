@@ -62,11 +62,21 @@ namespace Quill
     public static Text Of(TextReader source) =>
       Of(writer =>
       {
+        var wroteFirst = false;
         string line;
 
         while((line = source.ReadLine()) != null)
         {
-          writer.WriteLine(line);
+          if(wroteFirst)
+          {
+            writer.WriteLine();
+          }
+          else
+          {
+            wroteFirst = true;
+          }
+
+          writer.Write(line);
         }
       });
 
@@ -91,22 +101,22 @@ namespace Quill
     public static Text Of(long source) =>
       Of(writer => writer.Write(source));
 
-    public static Text Of(object source) =>
+    public static Text Of(object? source) =>
       Of(writer => writer.Write(source));
 
-    public static Text Of(string source) =>
+    public static Text Of(string? source) =>
       Of(writer => writer.Write(source));
 
-    public static Text Of(string format, object arg0) =>
+    public static Text Format(string format, object arg0) =>
       Of(writer => writer.Write(format, arg0));
 
-    public static Text Of(string format, object arg0, object arg1) =>
+    public static Text Format(string format, object arg0, object arg1) =>
       Of(writer => writer.Write(format, arg0, arg1));
 
-    public static Text Of(string format, object arg0, object arg1, object arg2) =>
+    public static Text Format(string format, object arg0, object arg1, object arg2) =>
       Of(writer => writer.Write(format, arg0, arg1, arg2));
 
-    public static Text Of(string format, params object[] args) =>
+    public static Text Format(string format, params object[] args) =>
       Of(writer => writer.Write(format, args));
 
     //
@@ -128,7 +138,7 @@ namespace Quill
     public static implicit operator Text(char source) =>
       Of(source);
 
-    public static implicit operator Text(char[] source) =>
+    public static implicit operator Text(char[]? source) =>
       Of(source);
 
     public static implicit operator Text(decimal source) =>
@@ -146,7 +156,7 @@ namespace Quill
     public static implicit operator Text(long source) =>
       Of(source);
 
-    public static implicit operator Text(string source) =>
+    public static implicit operator Text(string? source) =>
       Of(source);
 
     //
@@ -190,7 +200,7 @@ namespace Quill
       new Text(previous, writer => source.WriteTo(writer));
 
     //
-    // Sequences
+    // Of many
     //
 
     public static Text Of<T>(IEnumerable<T> source, Action<TextWriter, T, int> writeItem, Text separator = default) =>
@@ -259,10 +269,10 @@ namespace Quill
       Of(source, (writer, item) => writer.Write(item), separator);
 
     public static Text Of(IEnumerable<Action<TextWriter, int>> source, Text separator = default) =>
-      Of(source, (writer, item) => writer.Write(Of(item)), separator);
-
+      Of(source, (writer, item, index) => item?.Invoke(writer, index), separator);
+      
     public static Text Of(IEnumerable<Action<TextWriter>> source, Text separator = default) =>
-      Of(source, (writer, item) => writer.Write(Of(item)), separator);
+      Of(source, (writer, item) => item?.Invoke(writer), separator);
 
     public static Text Of(IEnumerable<TextReader> source, Text separator = default) =>
       Of(source, (writer, item) => writer.Write(Of(item)), separator);
@@ -292,7 +302,7 @@ namespace Quill
       Of(source, (writer, item) => writer.Write(item), separator);
 
     public static Text Of(IEnumerable<Text> source, Text separator = default) =>
-      Of(source, (writer, item) => writer.Write(item), separator);
+      Of(source, (writer, item) => item.WriteTo(writer), separator);
 
     //
     // Items
@@ -314,7 +324,7 @@ namespace Quill
           continue;
         }
 
-        if(index > 0)
+        if(index > 0 && !separator.IsNone)
         {
           yield return separator;
         }
@@ -341,7 +351,7 @@ namespace Quill
           continue;
         }
 
-        if(index > 0)
+        if(index > 0 && !separator.IsNone)
         {
           yield return separator;
         }
